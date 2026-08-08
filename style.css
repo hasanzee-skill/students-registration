@@ -440,6 +440,12 @@ button { font-family: inherit; }
   animation: spin 0.7s linear infinite;
   display: inline-block;
 }
+/* The [hidden] attribute and .spinner class have equal CSS specificity, so
+   without this rule .spinner's "display: inline-block" wins and the spinner
+   shows even when hidden. This rule forces hidden to win instead. */
+.spinner[hidden] {
+  display: none;
+}
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .register__privacy {
