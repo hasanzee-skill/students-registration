@@ -6,7 +6,7 @@
    It looks like:
    https://script.google.com/macros/s/AKfycbx.../exec
    ========================================================= */
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyrOmrdMeymtCHVUQ__5JWuUOBWCyfKMOxkAUrYjgacg4nnWUM3dn-02oIEwbmUbA-yMw/exec";
+const GAS_WEB_APP_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -56,6 +56,29 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   let isSubmitting = false;
+
+  /* ---------- Detect where the visitor came from ----------
+     Priority:
+     1. ?utm_source= or ?source= in the URL (set this on each ad's link,
+        e.g. ...?utm_source=instagram or ...?utm_source=facebook)
+     2. The referring page (in-app browsers usually keep this)
+     3. Falls back to "Website" for anyone who typed/bookmarked the URL directly
+     The backend re-validates this against an allowed list — the value here
+     is a hint, not something the backend blindly trusts. */
+  function detectSource() {
+    const params = new URLSearchParams(window.location.search);
+    const fromParam = (params.get("utm_source") || params.get("source") || "").toLowerCase();
+    if (fromParam.includes("instagram")) return "Instagram";
+    if (fromParam.includes("facebook") || fromParam === "fb") return "Facebook";
+    if (fromParam) return "Website"; // an unrecognized param value — don't guess further
+
+    const ref = (document.referrer || "").toLowerCase();
+    if (ref.includes("instagram.com")) return "Instagram";
+    if (ref.includes("facebook.com") || ref.includes("fb.com")) return "Facebook";
+
+    return "Website";
+  }
+  const detectedSource = detectSource();
 
   /* ---------- Show/hide "Other" qualification field ---------- */
   qualificationSelect.addEventListener("change", () => {
@@ -168,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
         : fields.qualification.value,
       mobile: fields.mobile.value.trim(),
       course: fields.course.value,
-      source: "Facebook",
+      source: detectedSource,
     };
   }
 
