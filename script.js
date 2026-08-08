@@ -6,7 +6,7 @@
    It looks like:
    https://script.google.com/macros/s/AKfycbx.../exec
    ========================================================= */
-const GAS_WEB_APP_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyrOmrdMeymtCHVUQ__5JWuUOBWCyfKMOxkAUrYjgacg4nnWUM3dn-02oIEwbmUbA-yMw/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
 
